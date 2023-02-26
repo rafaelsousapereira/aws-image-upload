@@ -2,8 +2,10 @@ package com.amigoscode.awsimageupload.profile;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
@@ -15,4 +17,12 @@ public class UserProfileService {
 				return userProfileDataAccessService.getUserProfiles();
 		}
 
+		public void uploadUserProfileImage(final UUID userProfileId, final MultipartFile file) {
+				// TODO:
+				// 1. Check if image is not empty.
+				// 2. If file is an image.
+				// 3. The user exists in our database.
+				// 4. Grab some metadata from file is any.
+				// 5. Store the image in s3 and update database (userProfileImageLink) with s3 image link.
+		}
 }
