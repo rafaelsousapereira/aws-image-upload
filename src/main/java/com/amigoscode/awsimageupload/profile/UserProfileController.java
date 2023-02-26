@@ -2,6 +2,7 @@ package com.amigoscode.awsimageupload.profile;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,14 +11,15 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/user-profiles")
+@RequestMapping("/api/v1/user-profile")
+@CrossOrigin("*")
 public class UserProfileController {
 
 		private final UserProfileService userProfileService;
 
 		@GetMapping
-		public List<UserProfile> getUserProfiles() {
-				return userProfileService.getUserProfiles();
+		public ResponseEntity<List<UserProfile>> getUserProfiles() {
+				return ResponseEntity.ok(userProfileService.getUserProfiles());
 		}
 
 		@PostMapping(path = "/{userProfileId}/image/upload",
