@@ -30,10 +30,10 @@ public class FileStore {
 				});
 
 				try {
-						log.info("{} Saving image at bucket in: ", path);
+						log.info("Saving image at bucket in. {}", fileName);
 						s3.putObject(path, fileName, inputStream, metadata);
 				}  catch (AmazonServiceException e) {
-						log.error("{} Failed to store file to S3: ", e.getMessage());
+						log.error("Failed to store file to S3. {}", e.getMessage());
 				}
 		}
 }

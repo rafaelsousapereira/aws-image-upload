@@ -20,8 +20,8 @@ public class FakeUserProfileDataStore {
 				USER_PROFILES.add(new UserProfile(UUID.randomUUID(), "antoniojunior", null));
 		}
 
-		public static List<UserProfile> getUserProfiles() {
-				log.info("{} Getting fake user profiles in the data store: ", USER_PROFILES);
+		public List<UserProfile> getUserProfiles() {
+				log.info("{} Getting fake user profiles in the data store. ", USER_PROFILES);
 				return USER_PROFILES;
 		}
 }
