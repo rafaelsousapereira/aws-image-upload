@@ -3,17 +3,17 @@ package com.amigoscode.awsimageupload.filestore;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amigoscode.awsimageupload.config.AmazonConfig;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
+@Service
 public class FileStore {
 		final Logger log = LoggerFactory.getLogger(FileStore.class);
 		private final AmazonS3 s3;
