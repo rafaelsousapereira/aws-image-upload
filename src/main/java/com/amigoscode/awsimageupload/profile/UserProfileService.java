@@ -25,21 +25,20 @@ public class UserProfileService {
 				return userProfileDataAccessService.getUserProfiles();
 		}
 
-		/**
-			* TODO:
-			* 1. Check if image is not empty.
-			* 2. If file is an image.
-			* 3. The user exists in our database.
-			* 4. Grab some metadata from file if any.
-			* 5. Store the image in s3 and update database (userProfileImageLink) with s3 image link.
-			* @param userProfileId id of user profifle
-			* @param file file type image
-			*/
 		public void uploadUserProfileImage(final UUID userProfileId, final MultipartFile file) {
-				validationFile(file);
-				UserProfile user = getUserProfile(userProfileId);
-				Map<String, String> metadata = getMetadata(file);
+				// 1. Check if image is not empty.
+				isFileEmpty(file);
 
+				// 2. If file is an image.
+				isImage(file);
+
+				// 3. The user exists in our database.
+				UserProfile user = getUserProfileOrThrow(userProfileId);
+
+				// 4. Grab some metadata from file if any.
+				Map<String, String> metadata = extractMetadata(file);
+
+				// Store the image in s3 and update database (userProfileImageLink) with s3 image link.
 				String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), user.getUserProfileId());
 				String filename = String.format("%s-%s", file.getName(), UUID.randomUUID());
 
@@ -50,14 +49,14 @@ public class UserProfileService {
 				}
 		}
 
-		private static Map<String, String> getMetadata(MultipartFile file) {
+		private static Map<String, String> extractMetadata(MultipartFile file) {
 				Map<String, String> metadata = new HashMap<>();
 				metadata.put("Content-Type", file.getContentType());
 				metadata.put("Content-Length", String.valueOf(file.getSize()));
 				return metadata;
 		}
 
-		private UserProfile getUserProfile(UUID userProfileId) {
+		private UserProfile getUserProfileOrThrow(UUID userProfileId) {
 				return userProfileDataAccessService
 						.getUserProfiles()
 						.stream()
@@ -66,13 +65,15 @@ public class UserProfileService {
 						.orElseThrow(() -> new IllegalStateException(String.format("User profile %s not found", userProfileId)));
 		}
 
-		private static void validationFile(MultipartFile file) {
-				if (file.isEmpty()) {
-						throw new IllegalStateException("Cannot upload empty file [ " + file.getSize() + " ]");
-				}
-
+		private static void isImage(MultipartFile file) {
 				if (Arrays.asList(IMAGE_JPEG, IMAGE_PNG, IMAGE_GIF).contains(file.getContentType())) {
 						throw new IllegalStateException("File must be an image");
+				}
+		}
+
+		private static void isFileEmpty(MultipartFile file) {
+				if (file.isEmpty()) {
+						throw new IllegalStateException("Cannot upload empty file [ " + file.getSize() + " ]");
 				}
 		}
 }
