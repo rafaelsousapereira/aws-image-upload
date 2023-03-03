@@ -45,6 +45,7 @@ public class UserProfileService {
 
 				try {
 						fileStore.save(path, filename, Optional.of(metadata), file.getInputStream());
+						user.setUserProfileImageLink(filename);
 						log.info("Storing the image in s3 and update database with s3 image link. {}", path);
 				} catch (IOException e) {
 						throw new IllegalStateException(e);
