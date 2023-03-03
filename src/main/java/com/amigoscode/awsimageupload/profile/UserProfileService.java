@@ -26,24 +26,26 @@ public class UserProfileService {
 		}
 
 		public void uploadUserProfileImage(final UUID userProfileId, final MultipartFile file) {
-				// 1. Check if image is not empty.
+
 				isFileEmpty(file);
+				log.info("Checking if image is not empty. {}", file.getOriginalFilename());
 
-				// 2. If file is an image.
 				isImage(file);
+				log.info("Checking if file is an image. {}", file.getContentType());
 
-				// 3. The user exists in our database.
 				UserProfile user = getUserProfileOrThrow(userProfileId);
+				log.info("Checking the user exists in database. {}", userProfileId);
 
-				// 4. Grab some metadata from file if any.
 				Map<String, String> metadata = extractMetadata(file);
+				log.info("Grabbing some metadata from file if any. {}", metadata);
 
-				// Store the image in s3 and update database (userProfileImageLink) with s3 image link.
+				//
 				String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), user.getUserProfileId());
-				String filename = String.format("%s-%s", file.getName(), UUID.randomUUID());
+				String filename = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
 
 				try {
 						fileStore.save(path, filename, Optional.of(metadata), file.getInputStream());
+						log.info("Storing the image in s3 and update database with s3 image link. {}", path);
 				} catch (IOException e) {
 						throw new IllegalStateException(e);
 				}
@@ -67,7 +69,7 @@ public class UserProfileService {
 
 		private static void isImage(MultipartFile file) {
 				if (Arrays.asList(IMAGE_JPEG, IMAGE_PNG, IMAGE_GIF).contains(file.getContentType())) {
-						throw new IllegalStateException("File must be an image");
+						throw new IllegalStateException("File must be an image [ " + file.getContentType() + " ]");
 				}
 		}
 
