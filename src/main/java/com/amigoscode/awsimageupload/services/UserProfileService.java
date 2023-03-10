@@ -1,7 +1,8 @@
-package com.amigoscode.awsimageupload.profile;
+package com.amigoscode.awsimageupload.services;
 
 import com.amigoscode.awsimageupload.bucket.BucketName;
 import com.amigoscode.awsimageupload.filestore.FileStore;
+import com.amigoscode.awsimageupload.profile.UserProfile;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

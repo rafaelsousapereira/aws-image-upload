@@ -1,6 +1,7 @@
-package com.amigoscode.awsimageupload.profile;
+package com.amigoscode.awsimageupload.services;
 
 import com.amigoscode.awsimageupload.datastore.FakeUserProfileDataStore;
+import com.amigoscode.awsimageupload.profile.UserProfile;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 

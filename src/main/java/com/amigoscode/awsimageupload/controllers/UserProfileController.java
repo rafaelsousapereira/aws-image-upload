@@ -1,5 +1,7 @@
-package com.amigoscode.awsimageupload.profile;
+package com.amigoscode.awsimageupload.controllers;
 
+import com.amigoscode.awsimageupload.profile.UserProfile;
+import com.amigoscode.awsimageupload.services.UserProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
